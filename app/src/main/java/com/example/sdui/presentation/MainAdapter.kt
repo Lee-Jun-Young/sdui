@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sdui.data.SectionItemListDto
+import com.example.sdui.data.SectionItemDto
 import com.example.sdui.databinding.ItemListTypeOneBinding
 
-class MainAdapter : ListAdapter<SectionItemListDto, MainAdapter.MainViewHolder>(
+class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
     TravelDiffCallback
 ) {
     private lateinit var context: Context
@@ -18,7 +18,7 @@ class MainAdapter : ListAdapter<SectionItemListDto, MainAdapter.MainViewHolder>(
         RecyclerView.ViewHolder(
             binding.root
         ) {
-        fun bind(travel: SectionItemListDto) {
+        fun bind(travel: SectionItemDto) {
             binding.tvType1.text = travel.header?.header
         }
     }
@@ -39,18 +39,18 @@ class MainAdapter : ListAdapter<SectionItemListDto, MainAdapter.MainViewHolder>(
         holder.bind(getItem(position))
     }
 
-    object TravelDiffCallback : DiffUtil.ItemCallback<SectionItemListDto>() {
+    object TravelDiffCallback : DiffUtil.ItemCallback<SectionItemDto>() {
         override fun areItemsTheSame(
-            oldItem: SectionItemListDto,
-            newItem: SectionItemListDto
+            oldItem: SectionItemDto,
+            newItem: SectionItemDto
         ): Boolean {
             return oldItem == newItem
         }
 
         // id 로 비교
         override fun areContentsTheSame(
-            oldItem: SectionItemListDto,
-            newItem: SectionItemListDto
+            oldItem: SectionItemDto,
+            newItem: SectionItemDto
         ): Boolean {
             return oldItem.viewType == newItem.viewType
         }
