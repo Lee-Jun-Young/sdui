@@ -2,7 +2,7 @@ package com.example.sdui.data
 
 import com.google.gson.annotations.SerializedName
 
-data class SectionItemListDto(
+data class SectionItemDto(
     @SerializedName("viewType")
     val viewType: String,
     @SerializedName("header")
