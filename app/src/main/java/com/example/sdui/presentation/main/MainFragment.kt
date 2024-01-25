@@ -1,4 +1,4 @@
-package com.example.sdui.presentation
+package com.example.sdui.presentation.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    
+
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var adapter: MainAdapter
 

@@ -1,4 +1,4 @@
-package com.example.sdui
+package com.example.sdui.presentation
 
 enum class ItemType(val type: String) {
     BANNER_TYPE("VIEW_TYPE_BANNER"),

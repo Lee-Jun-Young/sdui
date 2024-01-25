@@ -1,4 +1,4 @@
-package com.example.sdui.presentation
+package com.example.sdui.presentation.main
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sdui.data.SectionItemDto
-import com.example.sdui.databinding.ItemListTypeOneBinding
+import com.example.sdui.data.dto.SectionItemDto
+import com.example.sdui.databinding.ItemListTypeCardBinding
 
 class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
     TravelDiffCallback
 ) {
     private lateinit var context: Context
 
-    inner class MainViewHolder(private val binding: ItemListTypeOneBinding) :
+    inner class MainViewHolder(private val binding: ItemListTypeCardBinding) :
         RecyclerView.ViewHolder(
             binding.root
         ) {
@@ -29,7 +29,7 @@ class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val binding = ItemListTypeOneBinding.inflate(
+        val binding = ItemListTypeCardBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return MainViewHolder(binding)
@@ -47,7 +47,6 @@ class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
             return oldItem == newItem
         }
 
-        // id 로 비교
         override fun areContentsTheSame(
             oldItem: SectionItemDto,
             newItem: SectionItemDto

@@ -1,6 +1,6 @@
-package com.example.sdui
+package com.example.sdui.domain
 
-import com.example.sdui.data.SectionItemDto
+import com.example.sdui.data.dto.SectionItemDto
 
 interface ItemRepository {
 

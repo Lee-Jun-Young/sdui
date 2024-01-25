@@ -1,11 +1,11 @@
-package com.example.sdui.presentation
+package com.example.sdui.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sdui.ItemRepository
-import com.example.sdui.data.SectionItemDto
+import com.example.sdui.domain.ItemRepository
+import com.example.sdui.data.dto.SectionItemDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

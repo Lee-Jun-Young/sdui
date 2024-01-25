@@ -1,7 +1,7 @@
-package com.example.sdui.data
+package com.example.sdui.data.di
 
-import com.example.sdui.ItemRepository
-import com.example.sdui.ItemRepositoryImpl
+import com.example.sdui.data.repository.ItemRepositoryImpl
+import com.example.sdui.domain.ItemRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,9 +1,10 @@
-package com.example.sdui
+package com.example.sdui.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.sdui.R
 import com.example.sdui.databinding.ActivityMainBinding
-import com.example.sdui.presentation.MainFragment
+import com.example.sdui.presentation.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

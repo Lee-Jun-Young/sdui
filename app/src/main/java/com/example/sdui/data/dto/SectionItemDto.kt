@@ -1,4 +1,4 @@
-package com.example.sdui.data
+package com.example.sdui.data.dto
 
 import com.google.gson.annotations.SerializedName
 
