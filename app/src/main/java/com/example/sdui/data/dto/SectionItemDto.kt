@@ -7,6 +7,10 @@ data class SectionItemDto(
     val viewType: String,
     @SerializedName("header")
     val header: HeaderDataDto? = null,
+    @SerializedName("grid_info")
+    val gridInfo: GridInfoDto? = null,
+    @SerializedName("design")
+    val design: DesignDto? = null,
     @SerializedName("body")
-    val body: BodyDataDto? = null
+    val body: List<BodyDataDto>? = null
 )
