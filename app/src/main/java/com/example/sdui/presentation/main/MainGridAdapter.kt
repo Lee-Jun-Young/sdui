@@ -6,20 +6,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sdui.data.dto.SectionItemDto
-import com.example.sdui.databinding.ItemListTypeCardBinding
+import com.example.sdui.R
+import com.example.sdui.data.dto.BodyDataDto
+import com.example.sdui.databinding.ItemListTypeGridBinding
 
-class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
+class MainGridAdapter : ListAdapter<BodyDataDto, MainGridAdapter.MainViewHolder>(
     TravelDiffCallback
 ) {
     private lateinit var context: Context
 
-    inner class MainViewHolder(private val binding: ItemListTypeCardBinding) :
+    inner class MainViewHolder(private val binding: ItemListTypeGridBinding) :
         RecyclerView.ViewHolder(
             binding.root
         ) {
-        fun bind(travel: SectionItemDto) {
-            binding.tvType1.text = travel.header?.header
+        fun bind(data: BodyDataDto) {
+            binding.ivImg.setImageResource(R.drawable.ic_launcher_background)
+            binding.tvTitle.text = data.title
         }
     }
 
@@ -29,7 +31,7 @@ class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val binding = ItemListTypeCardBinding.inflate(
+        val binding = ItemListTypeGridBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return MainViewHolder(binding)
@@ -39,19 +41,19 @@ class MainAdapter : ListAdapter<SectionItemDto, MainAdapter.MainViewHolder>(
         holder.bind(getItem(position))
     }
 
-    object TravelDiffCallback : DiffUtil.ItemCallback<SectionItemDto>() {
+    object TravelDiffCallback : DiffUtil.ItemCallback<BodyDataDto>() {
         override fun areItemsTheSame(
-            oldItem: SectionItemDto,
-            newItem: SectionItemDto
+            oldItem: BodyDataDto,
+            newItem: BodyDataDto
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: SectionItemDto,
-            newItem: SectionItemDto
+            oldItem: BodyDataDto,
+            newItem: BodyDataDto
         ): Boolean {
-            return oldItem.viewType == newItem.viewType
+            return oldItem.title == newItem.title
         }
     }
 }

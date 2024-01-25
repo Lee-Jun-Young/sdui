@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sdui.data.dto.SectionItemDto
 import com.example.sdui.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +20,8 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     private val viewModel by viewModels<MainViewModel>()
-    private lateinit var adapter: MainAdapter
+    private lateinit var gridAdapter: MainGridAdapter
+    private lateinit var listAdapter: MainListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +36,46 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getItemList()
-        adapter = MainAdapter()
+        listAdapter = MainListAdapter()
+        gridAdapter = MainGridAdapter()
 
         viewModel.response.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            it.forEach(::drawView)
         }
-
-        binding.rvList.adapter = adapter
     }
+
+    private fun drawView(data: SectionItemDto) = with(binding) {
+        when (data.viewType) {
+            "VIEW_TYPE_CARD" -> {
+                listAdapter.submitList(data.body)
+
+                val rvList = RecyclerView(requireContext())
+                rvList.adapter = listAdapter
+                rvList.layoutManager = LinearLayoutManager(requireContext())
+                fragmentMain.addView(rvList)
+            }
+/*
+            "VIEW_TYPE_BANNER" -> {
+                val rvList = RecyclerView(requireContext())
+
+                rvList.adapter = listAdapter
+                rvList.layoutManager = LinearLayoutManager(requireContext())
+                fragmentMain.addView(rvList)
+            }
+ */
+            "VIEW_TYPE_GRID" -> {
+                gridAdapter.submitList(data.body)
+
+                val tvTitle = TextView(requireContext())
+                tvTitle.text = data.header?.header
+                fragmentMain.addView(tvTitle)
+
+                val rvGrid = RecyclerView(requireContext())
+                rvGrid.layoutManager = GridLayoutManager(requireContext(), data.gridInfo?.col ?: 4)
+                rvGrid.adapter = gridAdapter
+                fragmentMain.addView(rvGrid)
+            }
+        }
+    }
+
 }
