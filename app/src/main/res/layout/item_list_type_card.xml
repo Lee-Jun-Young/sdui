@@ -8,6 +8,7 @@
         android:id="@+id/iv_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -17,9 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        android:gravity="center"
         app:layout_constraintStart_toEndOf="@id/iv_img"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,17 +27,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_img"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <ImageView
+        android:id="@+id/iv_star"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/ic_rating_star"
+        app:layout_constraintStart_toEndOf="@id/iv_img"
+        app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
     <TextView
         android:id="@+id/tv_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_price"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/iv_star"
+        app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
