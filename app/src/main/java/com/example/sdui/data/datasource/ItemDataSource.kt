@@ -27,47 +27,55 @@ class ItemDataSourceImpl @Inject constructor() :
                 "header": "Card Type"
               },
               "design": {
-                "top": "2",
-                "left": "4",
-                "bottom": "2",
-                "right": "2"
+                "width": "50",
+                "height": "50",
+                "top": "8",
+                "left": "16",
+                "bottom": "8",
+                "right": "16"
               },
               "body": [
                 {
                   "url": "",
-                  "title": "한국",
-                  "price": "10,000",
+                  "title": "자장면",
+                  "price": "9,000",
+                  "rate": "4.2"
+                },
+                {
+                  "url": "",
+                  "title": "김치찌개",
+                  "price": "11,000",
                   "rate": "4.6"
                 },
                 {
                   "url": "",
-                  "title": "미국",
-                  "price": "10,000",
-                  "rate": "4.6"
+                  "title": "우동",
+                  "price": "9,000",
+                  "rate": "4.7"
                 },
                 {
                   "url": "",
-                  "title": "영국",
-                  "price": "10,000",
-                  "rate": "4.6"
+                  "title": "피자",
+                  "price": "32,000",
+                  "rate": "4.8"
                 },
                 {
                   "url": "",
-                  "title": "중국",
-                  "price": "10,000",
-                  "rate": "4.6"
+                  "title": "햄버거",
+                  "price": "12,000",
+                  "rate": "4.4"
                 },
                 {
                   "url": "",
-                  "title": "독일",
-                  "price": "10,000",
-                  "rate": "4.6"
+                  "title": "치킨",
+                  "price": "22,000",
+                  "rate": "4.9"
                 },
                 {
                   "url": "",
-                  "title": "일본",
-                  "price": "10,000",
-                  "rate": "4.6"
+                  "title": "빵",
+                  "price": "14,000",
+                  "rate": "4.5"
                 }
               ]   
         }"""
@@ -76,48 +84,50 @@ class ItemDataSourceImpl @Inject constructor() :
 
     private fun getBannerItem(): SectionItemDto {
         val jsonString = """{
-            "viewType": "VIEW_TYPE_BANNER",
-      "header": {
-        "header": "Banner Type"
-      },
-      "design": {
-        "top": "2",
-        "left": "4",
-        "bottom": "2",
-        "right": "2"
-      },
-      "body": [
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        },
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        },
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        },
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        },
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        },
-        {
-          "url": "",
-          "title": "",
-          "description": ""
-        }
-      ]
+              "viewType": "VIEW_TYPE_BANNER",
+              "header": {
+                "header": "Banner Type"
+              },
+              "design": {
+                "width": "0",
+                "height": "0",
+                "top": "4",
+                "left": "4",
+                "bottom": "4",
+                "right": "4"
+              },
+              "body": [
+                {
+                  "url": "ic_bg_1",
+                  "title": "",
+                  "description": ""
+                },
+                {
+                  "url": "ic_bg_2",
+                  "title": "",
+                  "description": ""
+                },
+                {
+                  "url": "ic_bg_1",
+                  "title": "",
+                  "description": ""
+                },
+                {
+                  "url": "ic_bg_2",
+                  "title": "",
+                  "description": ""
+                },
+                {
+                  "url": "ic_bg_1",
+                  "title": "",
+                  "description": ""
+                },
+                {
+                  "url": "ic_bg_2",
+                  "title": "",
+                  "description": ""
+                }
+            ]
         }"""
         return Gson().fromJson(jsonString, SectionItemDto::class.java)
     }
@@ -129,40 +139,42 @@ class ItemDataSourceImpl @Inject constructor() :
                 "header": "Grid Type"
             },
             "design": {
-                "top": "2",
-                "left": "4",
-                "bottom": "2",
-                "right": "2"
+                "width": "50",
+                "height": "50",
+                "top": "8",
+                "left": "8",
+                "bottom": "8",
+                "right": "8"
             },
             "grid_info": {
-                "row": "4",
+                "row": "2",
                 "col": "3",
-                "orientation": ""
+                "orientation": "vertical"
             },
             "body": [
                 {
                   "url": "",
-                  "title": "한국"
+                  "title": "중식"
                 },
                 {
                   "url": "",
-                  "title": "미국"
+                  "title": "양식"
                 },
                 {
                   "url": "",
-                  "title": "영국"
+                  "title": "한식"
                 },
                 {
                   "url": "",
-                  "title": "중국"
+                  "title": "일식"
                 },
                 {
                   "url": "",
-                  "title": "독일"
+                  "title": "패스트푸드"
                 },
                 {
                   "url": "",
-                  "title": "일본"
+                  "title": "베이커리"
                 }
             ]
         }"""
