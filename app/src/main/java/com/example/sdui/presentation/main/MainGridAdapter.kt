@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sdui.R
 import com.example.sdui.data.dto.BodyDataDto
+import com.example.sdui.data.dto.DesignDto
 import com.example.sdui.databinding.ItemListTypeGridBinding
 
-class MainGridAdapter : ListAdapter<BodyDataDto, MainGridAdapter.MainViewHolder>(
-    TravelDiffCallback
-) {
+class MainGridAdapter(private val design: DesignDto?) :
+    ListAdapter<BodyDataDto, MainGridAdapter.MainViewHolder>(
+        TravelDiffCallback
+    ) {
     private lateinit var context: Context
 
     inner class MainViewHolder(private val binding: ItemListTypeGridBinding) :
