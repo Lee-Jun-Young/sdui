@@ -1,5 +1,6 @@
 package com.example.sdui.data.di
 
+import com.example.sdui.data.TestService
 import com.example.sdui.data.datasource.ItemDataSource
 import com.example.sdui.data.datasource.ItemDataSourceImpl
 import com.example.sdui.data.repository.ItemRepositoryImpl
@@ -21,6 +22,6 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideItemDataSource(): ItemDataSource =
-        ItemDataSourceImpl()
+    fun provideItemDataSource(service: TestService): ItemDataSource =
+        ItemDataSourceImpl(service)
 }

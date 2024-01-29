@@ -23,9 +23,9 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     private val viewModel by viewModels<MainViewModel>()
-    private lateinit var gridAdapter: MainGridAdapter
-    private lateinit var listAdapter: MainListAdapter
-    private lateinit var bannerAdapter: MainViewPagerAdapter
+    //private lateinit var gridAdapter: MainGridAdapter
+    // lateinit var listAdapter: MainListAdapter
+    //private lateinit var bannerAdapter: MainViewPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,10 +42,11 @@ class MainFragment : Fragment() {
         viewModel.getItemList()
 
         viewModel.response.observe(viewLifecycleOwner) {
-            it.forEach(::drawView)
+            //it.forEach(::drawView)
         }
     }
 
+    /*
     private fun drawView(data: SectionItemDto) = with(binding) {
         when (data.viewType) {
             "VIEW_TYPE_CARD" -> {
@@ -119,6 +120,7 @@ class MainFragment : Fragment() {
                 fragmentMain.addView(rvGrid)
             }
         }
-    }
 
+    }
+*/
 }
