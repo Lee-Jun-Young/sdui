@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
 
     fun getItemList() {
         viewModelScope.launch {
-            //_response.value = repository.getItemList()
+            repository.getItemList()
         }
     }
 

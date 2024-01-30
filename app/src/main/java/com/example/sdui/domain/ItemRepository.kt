@@ -1,9 +1,8 @@
 package com.example.sdui.domain
 
-import com.example.sdui.data.dto.SectionItemDto
-import com.example.sdui.data.dto.SectionsDto
+import com.example.sdui.data.dto.SectionBannerDto
 
 interface ItemRepository {
 
-    suspend fun getItemList(): SectionsDto
+    suspend fun getItemList(): SectionBannerDto
 }
