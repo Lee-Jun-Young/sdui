@@ -1,15 +1,6 @@
 package com.example.sdui.data.di
 
-import com.example.sdui.RuntimeTypeAdapterFactory
 import com.example.sdui.data.TestService
-import com.example.sdui.data.dto.SectionAppBarDto
-import com.example.sdui.data.dto.SectionBannerDto
-import com.example.sdui.data.dto.SectionCardDto
-import com.example.sdui.data.dto.SectionListDto
-import com.example.sdui.data.dto.TypeDataDto
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,9 +18,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit =
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .build()
@@ -49,21 +40,6 @@ class NetworkModule {
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        val typeAdapterFactory: TypeAdapterFactory =
-            RuntimeTypeAdapterFactory.of(TypeDataDto::class.java, "viewType")
-                .registerSubtype(SectionCardDto::class.java, "VIEW_TYPE_CARD")
-                .registerSubtype(SectionBannerDto::class.java, "VIEW_TYPE_BANNER")
-                .registerSubtype(SectionAppBarDto::class.java, "VIEW_TYPE_APP_BAR")
-                .registerSubtype(SectionListDto::class.java, "VIEW_TYPE_LIST")
-
-        return GsonBuilder().registerTypeAdapterFactory(
-            typeAdapterFactory
-        ).create()
     }
 
     companion object {

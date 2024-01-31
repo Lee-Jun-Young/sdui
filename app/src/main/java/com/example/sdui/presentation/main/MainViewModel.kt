@@ -8,6 +8,7 @@ import com.example.sdui.domain.ItemRepository
 import com.example.sdui.data.dto.SectionItemDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,10 @@ class MainViewModel @Inject constructor(
 
     fun getItemList() {
         viewModelScope.launch {
-            repository.getItemList()
+            val aaa = repository.getItemList()
+            aaa.forEach {
+                Timber.d(it.body.toString())
+            }
         }
     }
 
