@@ -1,8 +1,6 @@
 package com.example.sdui.data.datasource
 
-import android.util.Log
 import com.example.sdui.data.TestService
-import com.example.sdui.data.dto.ResponseDataDto
 import com.example.sdui.data.dto.SectionAppBarDto
 import com.example.sdui.data.dto.SectionBannerDto
 import com.example.sdui.data.dto.SectionCardDto
@@ -19,12 +17,12 @@ interface ItemDataSource {
 class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
     ItemDataSource {
     override suspend fun getItemList(): List<TypeDataDto> {
-        val aaa = service.getItemList()
+        val result = service.getItemList()
 
         val list: MutableList<TypeDataDto> = mutableListOf()
 
-        if (aaa.isSuccessful) {
-            aaa.body()?.sections?.forEach {
+        if (result.isSuccessful) {
+            result.body()?.sections?.forEach {
                 when (it.viewType) {
                     "VIEW_TYPE_CARD" -> {
                         val temp = Gson().toJson(it.body)
@@ -34,8 +32,9 @@ class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
                     }
 
                     "VIEW_TYPE_BANNER" -> {
-                        Timber.d(it.body.toString())
-                        list.add(TypeDataDto("VIEW_TYPE_BANNER", it.body))
+                        val temp = Gson().toJson(it.body)
+                        val temp2 = Gson().fromJson(temp, SectionBannerDto::class.java)
+                        list.add(TypeDataDto("VIEW_TYPE_BANNER", temp2))
                     }
 
                     "VIEW_TYPE_APP_BAR" -> {
@@ -45,12 +44,14 @@ class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
                     }
 
                     "VIEW_TYPE_LIST" -> {
-                        // list.add(TypeDataDto("VIEW_TYPE_LIST", aaa))
+                        val temp = Gson().toJson(it.body)
+                        val temp2 = Gson().fromJson(temp, SectionListDto::class.java)
+                        list.add(TypeDataDto("VIEW_TYPE_LIST", temp2))
                     }
                 }
             }
         } else {
-            Timber.d("fail")
+            Timber.d(result.errorBody().toString())
         }
 
         return list
