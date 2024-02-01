@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.sdui.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -31,7 +32,8 @@ class MainFragment : Fragment() {
         viewModel.getItemList()
 
         viewModel.response.observe(viewLifecycleOwner) {
-
+            Timber.d(it.toString())
         }
+
     }
 }

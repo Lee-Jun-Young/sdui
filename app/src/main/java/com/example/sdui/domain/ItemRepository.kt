@@ -1,8 +1,8 @@
 package com.example.sdui.domain
 
-import com.example.sdui.data.dto.TypeDataDto
+import com.example.sdui.data.dto.ResponseDataDto
 
 interface ItemRepository {
 
-    suspend fun getItemList(): List<TypeDataDto>
+    suspend fun getItemList(): ResponseDataDto
 }

@@ -1,59 +1,24 @@
 package com.example.sdui.data.datasource
 
 import com.example.sdui.data.TestService
-import com.example.sdui.data.dto.SectionAppBarDto
-import com.example.sdui.data.dto.SectionBannerDto
-import com.example.sdui.data.dto.SectionCardDto
-import com.example.sdui.data.dto.SectionListDto
-import com.example.sdui.data.dto.TypeDataDto
-import com.google.gson.Gson
+import com.example.sdui.data.dto.ResponseDataDto
 import timber.log.Timber
 import javax.inject.Inject
 
 interface ItemDataSource {
-    suspend fun getItemList(): List<TypeDataDto>
+    suspend fun getItemList(): ResponseDataDto
 }
 
 class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
     ItemDataSource {
-    override suspend fun getItemList(): List<TypeDataDto> {
+    override suspend fun getItemList(): ResponseDataDto {
         val result = service.getItemList()
 
-        val list: MutableList<TypeDataDto> = mutableListOf()
-
-        if (result.isSuccessful) {
-            result.body()?.sections?.forEach {
-                when (it.viewType) {
-                    "VIEW_TYPE_CARD" -> {
-                        val temp = Gson().toJson(it.body)
-                        val temp2 = Gson().fromJson(temp, SectionCardDto::class.java)
-
-                        list.add(TypeDataDto("VIEW_TYPE_CARD", temp2))
-                    }
-
-                    "VIEW_TYPE_BANNER" -> {
-                        val temp = Gson().toJson(it.body)
-                        val temp2 = Gson().fromJson(temp, SectionBannerDto::class.java)
-                        list.add(TypeDataDto("VIEW_TYPE_BANNER", temp2))
-                    }
-
-                    "VIEW_TYPE_APP_BAR" -> {
-                        val temp = Gson().toJson(it.body)
-                        val temp2 = Gson().fromJson(temp, SectionAppBarDto::class.java)
-                        list.add(TypeDataDto("VIEW_TYPE_APP_BAR", temp2))
-                    }
-
-                    "VIEW_TYPE_LIST" -> {
-                        val temp = Gson().toJson(it.body)
-                        val temp2 = Gson().fromJson(temp, SectionListDto::class.java)
-                        list.add(TypeDataDto("VIEW_TYPE_LIST", temp2))
-                    }
-                }
-            }
+        return if (result.isSuccessful) {
+            result.body()!!
         } else {
             Timber.d(result.errorBody().toString())
+            ResponseDataDto("error")
         }
-
-        return list
     }
 }

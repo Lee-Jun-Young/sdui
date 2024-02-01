@@ -6,7 +6,7 @@ data class ListBodyDto(
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: String? = null,
     @SerializedName("description")
     val description: String? = null,
     @SerializedName("url")
@@ -23,3 +23,4 @@ data class BannerBodyDto(
     @SerializedName("id")
     val id: Int? = null
 )
+
