@@ -1,30 +1,24 @@
 package com.example.sdui.data.datasource
 
-import android.util.Log
 import com.example.sdui.data.TestService
-import com.example.sdui.data.dto.BaseDto
-import com.example.sdui.data.dto.SectionItemDto
-import com.example.sdui.data.dto.SectionsDto
-import com.google.gson.Gson
+import com.example.sdui.data.dto.ResponseDataDto
+import timber.log.Timber
 import javax.inject.Inject
 
 interface ItemDataSource {
-    suspend fun getItemList(): SectionsDto
+    suspend fun getItemList(): ResponseDataDto
 }
 
 class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
     ItemDataSource {
-    override suspend fun getItemList(): SectionsDto {
-        val response = service.getItemList()
-        if(response.isSuccessful) {
-            val body = response.body()
-            val gson = Gson()
-            val json = gson.toJson(body)
-            Log.d("TAG", "getItemList: $json")
-        }else{
-            Log.d("TAG", "getItemList: ${response.errorBody()}")
+    override suspend fun getItemList(): ResponseDataDto {
+        val result = service.getItemList()
+
+        return if (result.isSuccessful) {
+            result.body()!!
+        } else {
+            Timber.d(result.errorBody().toString())
+            ResponseDataDto("error")
         }
-        val list = SectionsDto(null, null, null, null)
-        return list
     }
 }
