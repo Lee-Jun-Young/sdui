@@ -1,12 +1,9 @@
 package com.example.sdui.presentation.main
 
-
-import androidx.recyclerview.widget.RecyclerView
-import com.example.sdui.data.dto.BaseBodyDto
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sdui.data.dto.BaseBodyDto
 import com.example.sdui.data.dto.SectionAppBarContentDto
 import com.example.sdui.data.dto.SectionAppBarDto
 import com.example.sdui.data.dto.SectionBannerContentDto
@@ -21,25 +18,8 @@ import com.example.sdui.databinding.ItemListTypeCardBinding
 import com.example.sdui.databinding.ItemListTypeListBinding
 import timber.log.Timber
 
-class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(DiffCallback) {
-
-    companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<ClassItem>() {
-            override fun areItemsTheSame(
-                oldItem: ClassItem,
-                newItem: ClassItem
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(
-                oldItem: ClassItem,
-                newItem: ClassItem
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
+class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val itemList = ArrayList<Any>()
 
     sealed class ClassItem {
         data class Card(val body: SectionCardContentDto) : ClassItem()
@@ -49,28 +29,22 @@ class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is ClassItem.Card -> {
-                0
-            }
-
-            is ClassItem.Banner -> {
-                1
-            }
-
-            is ClassItem.AppBar -> {
-                2
-            }
-
-            else -> {
-                3
-            }
+        return when (itemList[position]) {
+            is ClassItem.Card -> VIEW_TYPE_CARD
+            is ClassItem.Banner -> VIEW_TYPE_BANNER
+            is ClassItem.AppBar -> VIEW_TYPE_APP_BAR
+            is ClassItem.List -> VIEW_TYPE_LIST
+            else -> throw Exception("unknown type!!")
         }
+    }
+
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            0 -> {
+            VIEW_TYPE_CARD -> {
                 MainCardViewHolder(
                     ItemListTypeCardBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -80,7 +54,7 @@ class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(
                 )
             }
 
-            1 -> {
+            VIEW_TYPE_BANNER -> {
                 MainBannerViewHolder(
                     ItemListTypeBannerBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -90,7 +64,7 @@ class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(
                 )
             }
 
-            2 -> {
+            VIEW_TYPE_APP_BAR -> {
                 MainAppBarViewHolder(
                     ItemListTypeAppBarBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -113,13 +87,11 @@ class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = getItem(position)
-        Timber.d("onBindViewHolder: $item")
         when (holder) {
-            is MainCardViewHolder -> holder.bind((item as SectionCardContentDto))
-            is MainBannerViewHolder -> holder.bind((item as SectionBannerContentDto))
-            is MainAppBarViewHolder -> holder.bind((item as SectionAppBarContentDto))
-            is MainListViewHolder -> holder.bind((item as SectionListContentDto))
+            is MainCardViewHolder -> holder.bind((itemList[position] as ClassItem.Card))
+            is MainBannerViewHolder -> holder.bind((itemList[position] as ClassItem.Banner))
+            is MainAppBarViewHolder -> holder.bind((itemList[position] as ClassItem.AppBar))
+            is MainListViewHolder -> holder.bind((itemList[position] as ClassItem.List))
         }
     }
 
@@ -152,34 +124,41 @@ class MainAdapter : ListAdapter<MainAdapter.ClassItem, RecyclerView.ViewHolder>(
                 }
             }
         }
-        submitList(submitItem)
+        itemList.addAll(submitItem)
     }
 
     class MainCardViewHolder(private val binding: ItemListTypeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SectionCardContentDto) {
-            Timber.d("bind: $item")
+        fun bind(item: ClassItem.Card) {
+            
         }
     }
 
     class MainBannerViewHolder(private val binding: ItemListTypeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SectionBannerContentDto) {
-            Timber.d("bind: $item")
+        fun bind(item: ClassItem.Banner) {
+
         }
     }
 
     class MainAppBarViewHolder(private val binding: ItemListTypeAppBarBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SectionAppBarContentDto) {
-            Timber.d("bind: $item")
+        fun bind(item: ClassItem.AppBar) {
+
         }
     }
 
     class MainListViewHolder(private val binding: ItemListTypeListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SectionListContentDto) {
-            Timber.d("bind: $item")
+        fun bind(item: ClassItem.List) {
+
         }
+    }
+
+    companion object {
+        const val VIEW_TYPE_CARD = 0
+        const val VIEW_TYPE_BANNER = 1
+        const val VIEW_TYPE_APP_BAR = 2
+        const val VIEW_TYPE_LIST = 3
     }
 }

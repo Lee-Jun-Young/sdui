@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sdui.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
+    private lateinit var adapter: MainAdapter
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -26,14 +27,19 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = MainAdapter()
         viewModel.getItemList()
 
         viewModel.response.observe(viewLifecycleOwner) {
-            Timber.d(it.toString())
-        }
+            it.sections?.let { sections ->
+                adapter.submitListEx(sections)
 
+                binding.rvMain.adapter = adapter
+                binding.rvMain.layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
     }
 }
