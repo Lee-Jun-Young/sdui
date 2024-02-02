@@ -3,6 +3,8 @@ package com.example.sdui.presentation.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.sdui.R
 import com.example.sdui.data.dto.BaseBodyDto
 import com.example.sdui.data.dto.SectionAppBarContentDto
 import com.example.sdui.data.dto.SectionAppBarDto
@@ -16,7 +18,7 @@ import com.example.sdui.databinding.ItemListTypeAppBarBinding
 import com.example.sdui.databinding.ItemListTypeBannerBinding
 import com.example.sdui.databinding.ItemListTypeCardBinding
 import com.example.sdui.databinding.ItemListTypeListBinding
-import timber.log.Timber
+import com.example.sdui.util.toPriceFormat
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val itemList = ArrayList<Any>()
@@ -129,8 +131,14 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainCardViewHolder(private val binding: ItemListTypeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.Card) {
-            
+        fun bind(item: ClassItem.Card) = with(binding) {
+            Glide.with(itemView.context)
+                .load(item.body.url)
+                .placeholder(R.drawable.ic_bg_1)
+                .into(ivImg)
+            tvTitle.text = item.body.title
+            tvDescription.text = item.body.description
+            tvPrice.text = toPriceFormat(item.body.price!!)
         }
     }
 
@@ -143,8 +151,8 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainAppBarViewHolder(private val binding: ItemListTypeAppBarBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.AppBar) {
-
+        fun bind(item: ClassItem.AppBar) = with(binding) {
+            tvTitle.text = item.body.title
         }
     }
 
