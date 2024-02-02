@@ -1,4 +1,4 @@
-package com.example.sdui;
+package com.example.sdui.data.network;
 
 /*
  * Copyright 2015 The Error Prone Authors.

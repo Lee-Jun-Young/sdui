@@ -1,4 +1,4 @@
-package com.example.sdui.presentation
+package com.example.sdui.util
 
 import android.content.Context
 import kotlin.math.roundToInt

@@ -1,6 +1,6 @@
 package com.example.sdui.data.di
 
-import com.example.sdui.RuntimeTypeAdapterFactory
+import com.example.sdui.data.network.RuntimeTypeAdapterFactory
 import com.example.sdui.data.TestService
 import com.example.sdui.data.dto.BaseBodyDto
 import com.example.sdui.data.dto.SectionAppBarDto
@@ -15,7 +15,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

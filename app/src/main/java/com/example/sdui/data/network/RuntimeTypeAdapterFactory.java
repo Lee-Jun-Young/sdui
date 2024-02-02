@@ -1,4 +1,4 @@
-package com.example.sdui;
+package com.example.sdui.data.network;
 
 /*
  * Copyright (C) 2011 Google Inc.
@@ -16,7 +16,6 @@ package com.example.sdui;
  * limitations under the License.
  */
 
-import com.example.sdui.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
