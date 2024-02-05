@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.sdui.R
 import com.example.sdui.data.dto.DesignDto
 import com.example.sdui.data.dto.ListBodyDto
 import com.example.sdui.databinding.ItemListTypeListBinding
+import com.example.sdui.util.getImageRes
 import com.example.sdui.util.toPriceFormat
 
 class HorizontalScrollAdapter(private val design: DesignDto) :
@@ -35,8 +35,7 @@ class HorizontalScrollAdapter(private val design: DesignDto) :
             binding.root.layoutParams = params
 
             Glide.with(itemView.context)
-                .load(data.url)
-                .placeholder(R.drawable.ic_bg_1)
+                .load(getImageRes(itemView.context, data.url!!))
                 .into(binding.ivImg)
 
             binding.tvPrice.text = toPriceFormat(data.price!!)

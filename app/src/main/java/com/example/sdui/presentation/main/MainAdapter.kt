@@ -19,7 +19,9 @@ import com.example.sdui.databinding.ItemListTypeAppBarBinding
 import com.example.sdui.databinding.ItemListTypeBannerBinding
 import com.example.sdui.databinding.ItemListTypeBinding
 import com.example.sdui.databinding.ItemListTypeCardBinding
+import com.example.sdui.util.getImageRes
 import com.example.sdui.util.toPriceFormat
+import timber.log.Timber
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val itemList = ArrayList<Any>()
@@ -134,8 +136,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ClassItem.Card) = with(binding) {
             Glide.with(itemView.context)
-                .load(item.body.url)
-                .placeholder(R.drawable.ic_bg_1)
+                .load(getImageRes(itemView.context, item.body.url!!))
                 .into(ivImg)
             tvTitle.text = item.body.title
             tvDescription.text = item.body.description
@@ -161,6 +162,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }, 3000)
                 }
             })
+
             bannerAdapter.submitList(item.body.body)
         }
     }

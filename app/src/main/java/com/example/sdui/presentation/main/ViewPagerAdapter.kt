@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.sdui.R
 import com.example.sdui.data.dto.BannerBodyDto
 import com.example.sdui.databinding.ItemListTypeBannerContentBinding
+import com.example.sdui.util.getImageRes
 
 class ViewPagerAdapter : ListAdapter<BannerBodyDto, ViewPagerAdapter.MainViewHolder>(
     TravelDiffCallback
@@ -19,14 +20,10 @@ class ViewPagerAdapter : ListAdapter<BannerBodyDto, ViewPagerAdapter.MainViewHol
         ) {
         fun bind(data: BannerBodyDto) = with(binding) {
             Glide.with(itemView.context)
-                .load(data.bannerUrl)
-                .placeholder(R.drawable.ic_bg_2)
+                .load(getImageRes(itemView.context, data.bannerUrl!!))
+                .placeholder(R.drawable.ic_bg_1)
                 .into(ivSlide)
         }
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
