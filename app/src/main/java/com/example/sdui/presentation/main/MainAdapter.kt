@@ -16,8 +16,8 @@ import com.example.sdui.data.dto.SectionListContentDto
 import com.example.sdui.data.dto.SectionListDto
 import com.example.sdui.databinding.ItemListTypeAppBarBinding
 import com.example.sdui.databinding.ItemListTypeBannerBinding
+import com.example.sdui.databinding.ItemListTypeBinding
 import com.example.sdui.databinding.ItemListTypeCardBinding
-import com.example.sdui.databinding.ItemListTypeListBinding
 import com.example.sdui.util.toPriceFormat
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -78,7 +78,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             else -> {
                 MainListViewHolder(
-                    ItemListTypeListBinding.inflate(
+                    ItemListTypeBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -156,10 +156,18 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class MainListViewHolder(private val binding: ItemListTypeListBinding) :
+    class MainListViewHolder(private val binding: ItemListTypeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ClassItem.List) {
-
+            val adapter = HorizontalScrollAdapter(item.body.design!!)
+            adapter.submitList(item.body.body)
+            binding.rvList.layoutManager =
+                androidx.recyclerview.widget.LinearLayoutManager(
+                    binding.root.context,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+            binding.rvList.adapter = adapter
         }
     }
 
