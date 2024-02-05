@@ -18,8 +18,8 @@ data class ListBodyDto(
 )
 
 data class BannerBodyDto(
-    @SerializedName("title")
-    val title: String? = null,
+    @SerializedName("banner_url")
+    val bannerUrl: String? = null,
     @SerializedName("id")
     val id: Int? = null
 )

@@ -3,6 +3,7 @@ package com.example.sdui.presentation.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.sdui.R
 import com.example.sdui.data.dto.BaseBodyDto
@@ -144,8 +145,23 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainBannerViewHolder(private val binding: ItemListTypeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.Banner) {
+        fun bind(item: ClassItem.Banner) = with(binding) {
+            val bannerAdapter = ViewPagerAdapter()
+            vpBanner.adapter = bannerAdapter
 
+            vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    vpBanner.postDelayed({
+                        if (vpBanner.currentItem < bannerAdapter.itemCount - 1) {
+                            vpBanner.currentItem = vpBanner.currentItem + 1
+                        } else {
+                            vpBanner.currentItem = 0
+                        }
+                    }, 3000)
+                }
+            })
+            bannerAdapter.submitList(item.body.body)
         }
     }
 
