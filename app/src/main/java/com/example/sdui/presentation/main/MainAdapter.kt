@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.sdui.R
 import com.example.sdui.data.dto.BaseBodyDto
 import com.example.sdui.data.dto.SectionAppBarContentDto
 import com.example.sdui.data.dto.SectionAppBarDto
@@ -21,26 +20,21 @@ import com.example.sdui.databinding.ItemListTypeBinding
 import com.example.sdui.databinding.ItemListTypeCardBinding
 import com.example.sdui.util.getImageRes
 import com.example.sdui.util.toPriceFormat
-import timber.log.Timber
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val itemList = ArrayList<Any>()
+    private val itemList = ArrayList<ClassItem>()
 
-    sealed class ClassItem {
-        data class Card(val body: SectionCardContentDto) : ClassItem()
-        data class Banner(val body: SectionBannerContentDto) : ClassItem()
-        data class AppBar(val body: SectionAppBarContentDto) : ClassItem()
-        data class List(val body: SectionListContentDto) : ClassItem()
+    sealed class ClassItem(private val viewType: ViewType) {
+        data class Card(val body: SectionCardContentDto) : ClassItem(ViewType.VIEW_TYPE_CARD)
+        data class Banner(val body: SectionBannerContentDto) : ClassItem(ViewType.VIEW_TYPE_BANNER)
+        data class AppBar(val body: SectionAppBarContentDto) : ClassItem(ViewType.VIEW_TYPE_APP_BAR)
+        data class List(val body: SectionListContentDto) : ClassItem(ViewType.VIEW_TYPE_LIST)
+
+        fun getViewType() = viewType
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (itemList[position]) {
-            is ClassItem.Card -> VIEW_TYPE_CARD
-            is ClassItem.Banner -> VIEW_TYPE_BANNER
-            is ClassItem.AppBar -> VIEW_TYPE_APP_BAR
-            is ClassItem.List -> VIEW_TYPE_LIST
-            else -> throw Exception("unknown type!!")
-        }
+        return itemList[position].getViewType().ordinal
     }
 
     override fun getItemCount(): Int {
@@ -48,8 +42,8 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_CARD -> {
+        return when (ViewType.values()[viewType]) {
+            ViewType.VIEW_TYPE_CARD -> {
                 MainCardViewHolder(
                     ItemListTypeCardBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -59,7 +53,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 )
             }
 
-            VIEW_TYPE_BANNER -> {
+            ViewType.VIEW_TYPE_BANNER -> {
                 MainBannerViewHolder(
                     ItemListTypeBannerBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -69,7 +63,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 )
             }
 
-            VIEW_TYPE_APP_BAR -> {
+            ViewType.VIEW_TYPE_APP_BAR -> {
                 MainAppBarViewHolder(
                     ItemListTypeAppBarBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -103,29 +97,25 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun submitListEx(list: List<BaseBodyDto>) {
         val submitItem = java.util.ArrayList<ClassItem>()
         list.forEach { result ->
-            when (result.viewType) {
-                "VIEW_TYPE_CARD" -> {
-                    val aaa = result as SectionCardDto
-                    val bbb = aaa.body as SectionCardContentDto
-                    submitItem.add(ClassItem.Card(bbb))
+            when (ViewType.valueOf(result.viewType)) {
+                ViewType.VIEW_TYPE_CARD -> {
+                    val temp = (result as SectionCardDto).body as SectionCardContentDto
+                    submitItem.add(ClassItem.Card(temp))
                 }
 
-                "VIEW_TYPE_BANNER" -> {
-                    val aaa = result as SectionBannerDto
-                    val bbb = aaa.body as SectionBannerContentDto
-                    submitItem.add(ClassItem.Banner(bbb))
+                ViewType.VIEW_TYPE_BANNER -> {
+                    val temp = (result as SectionBannerDto).body as SectionBannerContentDto
+                    submitItem.add(ClassItem.Banner(temp))
                 }
 
-                "VIEW_TYPE_APP_BAR" -> {
-                    val aaa = result as SectionAppBarDto
-                    val bbb = aaa.body as SectionAppBarContentDto
-                    submitItem.add(ClassItem.AppBar(bbb))
+                ViewType.VIEW_TYPE_APP_BAR -> {
+                    val temp = (result as SectionAppBarDto).body as SectionAppBarContentDto
+                    submitItem.add(ClassItem.AppBar(temp))
                 }
 
-                "VIEW_TYPE_LIST" -> {
-                    val aaa = result as SectionListDto
-                    val bbb = aaa.body as SectionListContentDto
-                    submitItem.add(ClassItem.List(bbb))
+                ViewType.VIEW_TYPE_LIST -> {
+                    val temp = (result as SectionListDto).body as SectionListContentDto
+                    submitItem.add(ClassItem.List(temp))
                 }
             }
         }
@@ -189,10 +179,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    companion object {
-        const val VIEW_TYPE_CARD = 0
-        const val VIEW_TYPE_BANNER = 1
-        const val VIEW_TYPE_APP_BAR = 2
-        const val VIEW_TYPE_LIST = 3
+    enum class ViewType {
+        VIEW_TYPE_CARD, VIEW_TYPE_BANNER, VIEW_TYPE_APP_BAR, VIEW_TYPE_LIST
     }
 }
