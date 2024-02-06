@@ -22,13 +22,13 @@ import com.example.sdui.util.getImageRes
 import com.example.sdui.util.toPriceFormat
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val itemList = ArrayList<ClassItem>()
+    private val itemList = ArrayList<TypeItem>()
 
-    sealed class ClassItem(private val viewType: ViewType) {
-        data class Card(val body: SectionCardContentDto) : ClassItem(ViewType.VIEW_TYPE_CARD)
-        data class Banner(val body: SectionBannerContentDto) : ClassItem(ViewType.VIEW_TYPE_BANNER)
-        data class AppBar(val body: SectionAppBarContentDto) : ClassItem(ViewType.VIEW_TYPE_APP_BAR)
-        data class List(val body: SectionListContentDto) : ClassItem(ViewType.VIEW_TYPE_LIST)
+    sealed class TypeItem(private val viewType: ViewType) {
+        data class Card(val body: SectionCardContentDto) : TypeItem(ViewType.VIEW_TYPE_CARD)
+        data class Banner(val body: SectionBannerContentDto) : TypeItem(ViewType.VIEW_TYPE_BANNER)
+        data class AppBar(val body: SectionAppBarContentDto) : TypeItem(ViewType.VIEW_TYPE_APP_BAR)
+        data class List(val body: SectionListContentDto) : TypeItem(ViewType.VIEW_TYPE_LIST)
 
         fun getViewType() = viewType
     }
@@ -87,35 +87,35 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is MainCardViewHolder -> holder.bind((itemList[position] as ClassItem.Card))
-            is MainBannerViewHolder -> holder.bind((itemList[position] as ClassItem.Banner))
-            is MainAppBarViewHolder -> holder.bind((itemList[position] as ClassItem.AppBar))
-            is MainListViewHolder -> holder.bind((itemList[position] as ClassItem.List))
+            is MainCardViewHolder -> holder.bind((itemList[position] as TypeItem.Card))
+            is MainBannerViewHolder -> holder.bind((itemList[position] as TypeItem.Banner))
+            is MainAppBarViewHolder -> holder.bind((itemList[position] as TypeItem.AppBar))
+            is MainListViewHolder -> holder.bind((itemList[position] as TypeItem.List))
         }
     }
 
     fun submitListEx(list: List<BaseBodyDto>) {
-        val submitItem = java.util.ArrayList<ClassItem>()
+        val submitItem = java.util.ArrayList<TypeItem>()
         list.forEach { result ->
             when (ViewType.valueOf(result.viewType)) {
                 ViewType.VIEW_TYPE_CARD -> {
                     val temp = (result as SectionCardDto).body as SectionCardContentDto
-                    submitItem.add(ClassItem.Card(temp))
+                    submitItem.add(TypeItem.Card(temp))
                 }
 
                 ViewType.VIEW_TYPE_BANNER -> {
                     val temp = (result as SectionBannerDto).body as SectionBannerContentDto
-                    submitItem.add(ClassItem.Banner(temp))
+                    submitItem.add(TypeItem.Banner(temp))
                 }
 
                 ViewType.VIEW_TYPE_APP_BAR -> {
                     val temp = (result as SectionAppBarDto).body as SectionAppBarContentDto
-                    submitItem.add(ClassItem.AppBar(temp))
+                    submitItem.add(TypeItem.AppBar(temp))
                 }
 
                 ViewType.VIEW_TYPE_LIST -> {
                     val temp = (result as SectionListDto).body as SectionListContentDto
-                    submitItem.add(ClassItem.List(temp))
+                    submitItem.add(TypeItem.List(temp))
                 }
             }
         }
@@ -124,7 +124,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainCardViewHolder(private val binding: ItemListTypeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.Card) = with(binding) {
+        fun bind(item: TypeItem.Card) = with(binding) {
             Glide.with(itemView.context)
                 .load(getImageRes(itemView.context, item.body.url!!))
                 .into(ivImg)
@@ -136,7 +136,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainBannerViewHolder(private val binding: ItemListTypeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.Banner) = with(binding) {
+        fun bind(item: TypeItem.Banner) = with(binding) {
             val bannerAdapter = ViewPagerAdapter()
             vpBanner.adapter = bannerAdapter
 
@@ -159,14 +159,14 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MainAppBarViewHolder(private val binding: ItemListTypeAppBarBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.AppBar) = with(binding) {
+        fun bind(item: TypeItem.AppBar) = with(binding) {
             tvTitle.text = item.body.title
         }
     }
 
     class MainListViewHolder(private val binding: ItemListTypeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ClassItem.List) {
+        fun bind(item: TypeItem.List) {
             val adapter = HorizontalScrollAdapter(item.body.design!!)
             adapter.submitList(item.body.body)
             binding.rvList.layoutManager =
