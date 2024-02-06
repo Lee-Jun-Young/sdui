@@ -6,15 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.sdui.data.dto.BaseBodyDto
-import com.example.sdui.data.dto.SectionAppBarContentDto
-import com.example.sdui.data.dto.SectionAppBarDto
 import com.example.sdui.data.dto.SectionBannerContentDto
 import com.example.sdui.data.dto.SectionBannerDto
 import com.example.sdui.data.dto.SectionCardContentDto
 import com.example.sdui.data.dto.SectionCardDto
 import com.example.sdui.data.dto.SectionListContentDto
 import com.example.sdui.data.dto.SectionListDto
-import com.example.sdui.databinding.ItemListTypeAppBarBinding
 import com.example.sdui.databinding.ItemListTypeBannerBinding
 import com.example.sdui.databinding.ItemListTypeBinding
 import com.example.sdui.databinding.ItemListTypeCardBinding
@@ -27,7 +24,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     sealed class TypeItem(private val viewType: ViewType) {
         data class Card(val body: SectionCardContentDto) : TypeItem(ViewType.VIEW_TYPE_CARD)
         data class Banner(val body: SectionBannerContentDto) : TypeItem(ViewType.VIEW_TYPE_BANNER)
-        data class AppBar(val body: SectionAppBarContentDto) : TypeItem(ViewType.VIEW_TYPE_APP_BAR)
         data class List(val body: SectionListContentDto) : TypeItem(ViewType.VIEW_TYPE_LIST)
 
         fun getViewType() = viewType
@@ -42,7 +38,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (ViewType.values()[viewType]) {
+        return when (ViewType.entries[viewType]) {
             ViewType.VIEW_TYPE_CARD -> {
                 MainCardViewHolder(
                     ItemListTypeCardBinding.inflate(
@@ -56,16 +52,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             ViewType.VIEW_TYPE_BANNER -> {
                 MainBannerViewHolder(
                     ItemListTypeBannerBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                )
-            }
-
-            ViewType.VIEW_TYPE_APP_BAR -> {
-                MainAppBarViewHolder(
-                    ItemListTypeAppBarBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -89,7 +75,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder) {
             is MainCardViewHolder -> holder.bind((itemList[position] as TypeItem.Card))
             is MainBannerViewHolder -> holder.bind((itemList[position] as TypeItem.Banner))
-            is MainAppBarViewHolder -> holder.bind((itemList[position] as TypeItem.AppBar))
             is MainListViewHolder -> holder.bind((itemList[position] as TypeItem.List))
         }
     }
@@ -106,11 +91,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 ViewType.VIEW_TYPE_BANNER -> {
                     val temp = (result as SectionBannerDto).body as SectionBannerContentDto
                     submitItem.add(TypeItem.Banner(temp))
-                }
-
-                ViewType.VIEW_TYPE_APP_BAR -> {
-                    val temp = (result as SectionAppBarDto).body as SectionAppBarContentDto
-                    submitItem.add(TypeItem.AppBar(temp))
                 }
 
                 ViewType.VIEW_TYPE_LIST -> {
@@ -157,13 +137,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class MainAppBarViewHolder(private val binding: ItemListTypeAppBarBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TypeItem.AppBar) = with(binding) {
-            tvTitle.text = item.body.title
-        }
-    }
-
     class MainListViewHolder(private val binding: ItemListTypeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: TypeItem.List) {
@@ -180,6 +153,6 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     enum class ViewType {
-        VIEW_TYPE_CARD, VIEW_TYPE_BANNER, VIEW_TYPE_APP_BAR, VIEW_TYPE_LIST
+        VIEW_TYPE_CARD, VIEW_TYPE_BANNER, VIEW_TYPE_LIST
     }
 }
