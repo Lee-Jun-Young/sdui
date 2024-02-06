@@ -15,10 +15,11 @@ class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
         val result = service.getItemList()
 
         return if (result.isSuccessful) {
+            Timber.d(result.body().toString())
             result.body()!!
         } else {
             Timber.d(result.errorBody().toString())
-            ResponseDataDto("error")
+            ResponseDataDto(null, null)
         }
     }
 }

@@ -1,7 +1,15 @@
 package com.example.sdui.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class ResponseDataDto(
-    val sectionType: String,
+    @SerializedName("static_area")
+    val staticArea: AreaDto? = null,
+    @SerializedName("dynamic_area")
+    val dynamicArea: AreaDto? = null
+)
+
+data class AreaDto(
     val sections: List<BaseBodyDto>? = null
 )
 
