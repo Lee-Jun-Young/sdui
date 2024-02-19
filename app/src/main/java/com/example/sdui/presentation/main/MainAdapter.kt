@@ -1,10 +1,7 @@
 package com.example.sdui.presentation.main
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.example.sdui.data.dto.BaseBodyDto
 import com.example.sdui.data.dto.SectionBannerContentDto
 import com.example.sdui.data.dto.SectionBannerDto
@@ -12,13 +9,8 @@ import com.example.sdui.data.dto.SectionCardContentDto
 import com.example.sdui.data.dto.SectionCardDto
 import com.example.sdui.data.dto.SectionListContentDto
 import com.example.sdui.data.dto.SectionListDto
-import com.example.sdui.databinding.ItemListTypeBannerBinding
-import com.example.sdui.databinding.ItemListTypeBinding
-import com.example.sdui.databinding.ItemListTypeCardBinding
-import com.example.sdui.util.getImageRes
-import com.example.sdui.util.toPriceFormat
 
-class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainAdapter : RecyclerView.Adapter<CommonViewHolder>() {
     private val itemList = ArrayList<TypeItem>()
 
     sealed class TypeItem(private val viewType: ViewType) {
@@ -33,50 +25,14 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return itemList[position].getViewType().ordinal
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
+    override fun getItemCount(): Int = itemList.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
+        return CommonViewHolderFactory.createViewHolder(parent, viewType)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (ViewType.entries[viewType]) {
-            ViewType.VIEW_TYPE_CARD -> {
-                MainCardViewHolder(
-                    ItemListTypeCardBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                )
-            }
-
-            ViewType.VIEW_TYPE_BANNER -> {
-                MainBannerViewHolder(
-                    ItemListTypeBannerBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                )
-            }
-
-            else -> {
-                MainListViewHolder(
-                    ItemListTypeBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                )
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is MainCardViewHolder -> holder.bind((itemList[position] as TypeItem.Card))
-            is MainBannerViewHolder -> holder.bind((itemList[position] as TypeItem.Banner))
-            is MainListViewHolder -> holder.bind((itemList[position] as TypeItem.List))
-        }
+    override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
+        holder.bind(itemList[position])
     }
 
     fun submitListEx(list: List<BaseBodyDto>) {
@@ -100,59 +56,5 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
         itemList.addAll(submitItem)
-    }
-
-    class MainCardViewHolder(private val binding: ItemListTypeCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TypeItem.Card) = with(binding) {
-            Glide.with(itemView.context)
-                .load(getImageRes(itemView.context, item.body.url!!))
-                .into(ivImg)
-            tvTitle.text = item.body.title
-            tvDescription.text = item.body.description
-            tvPrice.text = toPriceFormat(item.body.price!!)
-        }
-    }
-
-    class MainBannerViewHolder(private val binding: ItemListTypeBannerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TypeItem.Banner) = with(binding) {
-            val bannerAdapter = ViewPagerAdapter()
-            vpBanner.adapter = bannerAdapter
-
-            vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    vpBanner.postDelayed({
-                        if (vpBanner.currentItem < bannerAdapter.itemCount - 1) {
-                            vpBanner.currentItem = vpBanner.currentItem + 1
-                        } else {
-                            vpBanner.currentItem = 0
-                        }
-                    }, 3000)
-                }
-            })
-
-            bannerAdapter.submitList(item.body.body)
-        }
-    }
-
-    class MainListViewHolder(private val binding: ItemListTypeBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TypeItem.List) {
-            val adapter = HorizontalScrollAdapter(item.body.design!!)
-            adapter.submitList(item.body.body)
-            binding.rvList.layoutManager =
-                androidx.recyclerview.widget.LinearLayoutManager(
-                    binding.root.context,
-                    RecyclerView.HORIZONTAL,
-                    false
-                )
-            binding.rvList.adapter = adapter
-        }
-    }
-
-    enum class ViewType {
-        VIEW_TYPE_CARD, VIEW_TYPE_BANNER, VIEW_TYPE_LIST
     }
 }
