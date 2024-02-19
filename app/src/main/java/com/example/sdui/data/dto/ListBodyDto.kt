@@ -16,11 +16,3 @@ data class ListBodyDto(
     @SerializedName("rate")
     val rate: String? = null
 )
-
-data class BannerBodyDto(
-    @SerializedName("banner_url")
-    val bannerUrl: String? = null,
-    @SerializedName("id")
-    val id: Int? = null
-)
-

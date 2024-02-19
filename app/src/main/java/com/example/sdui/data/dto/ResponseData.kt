@@ -13,11 +13,14 @@ data class AreaDto(
     val sections: List<BaseBodyDto>? = null
 )
 
-abstract class BaseBodyDto(val viewType: String)
+interface BaseBodyDto {
+    val viewType: String
+}
 
 data class SectionCardDto(
+    override val viewType: String = "VIEW_TYPE_CARD",
     val body: SectionCardContentDto? = null
-) : BaseBodyDto("VIEW_TYPE_CARD")
+) : BaseBodyDto
 
 data class SectionCardContentDto(
     val title: String? = null,
@@ -28,8 +31,9 @@ data class SectionCardContentDto(
 )
 
 data class SectionBannerDto(
+    override val viewType: String = "VIEW_TYPE_BANNER",
     val body: SectionBannerContentDto? = null
-) : BaseBodyDto("VIEW_TYPE_BANNER")
+) : BaseBodyDto
 
 data class SectionBannerContentDto(
     val title: String? = null,
@@ -37,16 +41,18 @@ data class SectionBannerContentDto(
 )
 
 data class SectionAppBarDto(
+    override val viewType: String = "VIEW_TYPE_APP_BAR",
     val body: SectionAppBarContentDto? = null
-) : BaseBodyDto("VIEW_TYPE_APP_BAR")
+) : BaseBodyDto
 
 data class SectionAppBarContentDto(
     val title: String? = null,
 )
 
 data class SectionListDto(
+    override val viewType: String = "VIEW_TYPE_LIST",
     val body: SectionListContentDto? = null
-) : BaseBodyDto("VIEW_TYPE_LIST")
+) : BaseBodyDto
 
 data class SectionListContentDto(
     val design: DesignDto? = null,
