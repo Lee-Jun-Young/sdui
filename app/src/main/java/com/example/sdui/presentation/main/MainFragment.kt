@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
             it?.sections?.forEach { data ->
                 when (data) {
                     is SectionAppBarDto -> {
-                        binding.tvTitle.text = data.body?.title
+                        binding.tvTitle.text = data.title
                     }
                 }
             }

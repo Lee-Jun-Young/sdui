@@ -3,11 +3,8 @@ package com.example.sdui.presentation.main.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sdui.data.dto.BaseBodyDto
-import com.example.sdui.data.dto.SectionBannerContentDto
 import com.example.sdui.data.dto.SectionBannerDto
-import com.example.sdui.data.dto.SectionCardContentDto
 import com.example.sdui.data.dto.SectionCardDto
-import com.example.sdui.data.dto.SectionListContentDto
 import com.example.sdui.data.dto.SectionListDto
 import com.example.sdui.presentation.ViewType
 import com.example.sdui.presentation.main.viewHolder.CommonViewHolder
@@ -17,9 +14,9 @@ class MainAdapter : RecyclerView.Adapter<CommonViewHolder>() {
     private val itemList = ArrayList<TypeItem>()
 
     sealed class TypeItem(private val viewType: ViewType) {
-        data class Card(val body: SectionCardContentDto) : TypeItem(ViewType.VIEW_TYPE_CARD)
-        data class Banner(val body: SectionBannerContentDto) : TypeItem(ViewType.VIEW_TYPE_BANNER)
-        data class List(val body: SectionListContentDto) : TypeItem(ViewType.VIEW_TYPE_LIST)
+        data class Card(val body: SectionCardDto) : TypeItem(ViewType.VIEW_TYPE_CARD)
+        data class Banner(val body: SectionBannerDto) : TypeItem(ViewType.VIEW_TYPE_BANNER)
+        data class List(val body: SectionListDto) : TypeItem(ViewType.VIEW_TYPE_LIST)
 
         fun getViewType() = viewType
     }
@@ -43,21 +40,22 @@ class MainAdapter : RecyclerView.Adapter<CommonViewHolder>() {
         list.forEach { result ->
             when (ViewType.valueOf(result.viewType)) {
                 ViewType.VIEW_TYPE_CARD -> {
-                    val temp = (result as SectionCardDto).body as SectionCardContentDto
+                    val temp = (result as SectionCardDto)
                     submitItem.add(TypeItem.Card(temp))
                 }
 
                 ViewType.VIEW_TYPE_BANNER -> {
-                    val temp = (result as SectionBannerDto).body as SectionBannerContentDto
+                    val temp = (result as SectionBannerDto)
                     submitItem.add(TypeItem.Banner(temp))
                 }
 
                 ViewType.VIEW_TYPE_LIST -> {
-                    val temp = (result as SectionListDto).body as SectionListContentDto
+                    val temp = (result as SectionListDto)
                     submitItem.add(TypeItem.List(temp))
                 }
             }
         }
         itemList.addAll(submitItem)
     }
+
 }
