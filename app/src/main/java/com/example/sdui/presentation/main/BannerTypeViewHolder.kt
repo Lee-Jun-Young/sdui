@@ -2,11 +2,12 @@ package com.example.sdui.presentation.main
 
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sdui.databinding.ItemListTypeBannerBinding
+import com.example.sdui.presentation.main.MainAdapter.TypeItem
 
 class BannerTypeViewHolder(private val binding: ItemListTypeBannerBinding) :
     CommonViewHolder(binding) {
-    override fun bind(data: MainAdapter.TypeItem) = with(binding) {
-        val item = data as MainAdapter.TypeItem.Banner
+    override fun bind(item: TypeItem) = with(binding) {
+        val data = item as TypeItem.Banner
         val bannerAdapter = ViewPagerAdapter()
         vpBanner.adapter = bannerAdapter
 
@@ -22,6 +23,6 @@ class BannerTypeViewHolder(private val binding: ItemListTypeBannerBinding) :
                 }, 3000)
             }
         })
-        bannerAdapter.submitList(item.body.body)
+        bannerAdapter.submitList(data.body.body)
     }
 }
