@@ -1,10 +1,10 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.viewHolder
 
 import com.bumptech.glide.Glide
 import com.example.sdui.databinding.ItemListTypeCardBinding
 import com.example.sdui.util.getImageRes
 import com.example.sdui.util.toPriceFormat
-import com.example.sdui.presentation.main.MainAdapter.TypeItem
+import com.example.sdui.presentation.main.adapter.MainAdapter.TypeItem
 
 class CardTypeViewHolder(
     private val binding: ItemListTypeCardBinding

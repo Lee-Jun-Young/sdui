@@ -1,10 +1,11 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.viewHolder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.viewbinding.ViewBinding
 import com.example.sdui.R
+import com.example.sdui.presentation.ViewType
 
 object CommonViewHolderFactory {
     fun createViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sdui.data.dto.SectionAppBarDto
 import com.example.sdui.databinding.FragmentMainBinding
+import com.example.sdui.presentation.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

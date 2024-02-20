@@ -1,8 +1,9 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.viewHolder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sdui.databinding.ItemListTypeBinding
-import com.example.sdui.presentation.main.MainAdapter.TypeItem
+import com.example.sdui.presentation.main.adapter.HorizontalScrollAdapter
+import com.example.sdui.presentation.main.adapter.MainAdapter.TypeItem
 
 class ListTypeViewHolder(
     private val binding: ItemListTypeBinding

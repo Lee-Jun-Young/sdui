@@ -1,4 +1,4 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +9,9 @@ import com.example.sdui.data.dto.SectionCardContentDto
 import com.example.sdui.data.dto.SectionCardDto
 import com.example.sdui.data.dto.SectionListContentDto
 import com.example.sdui.data.dto.SectionListDto
+import com.example.sdui.presentation.ViewType
+import com.example.sdui.presentation.main.viewHolder.CommonViewHolder
+import com.example.sdui.presentation.main.viewHolder.CommonViewHolderFactory
 
 class MainAdapter : RecyclerView.Adapter<CommonViewHolder>() {
     private val itemList = ArrayList<TypeItem>()

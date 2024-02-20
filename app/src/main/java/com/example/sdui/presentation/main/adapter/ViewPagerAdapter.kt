@@ -1,4 +1,4 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

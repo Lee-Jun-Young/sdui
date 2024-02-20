@@ -1,8 +1,9 @@
-package com.example.sdui.presentation.main
+package com.example.sdui.presentation.main.viewHolder
 
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sdui.databinding.ItemListTypeBannerBinding
-import com.example.sdui.presentation.main.MainAdapter.TypeItem
+import com.example.sdui.presentation.main.adapter.MainAdapter.TypeItem
+import com.example.sdui.presentation.main.adapter.ViewPagerAdapter
 
 class BannerTypeViewHolder(private val binding: ItemListTypeBannerBinding) :
     CommonViewHolder(binding) {
