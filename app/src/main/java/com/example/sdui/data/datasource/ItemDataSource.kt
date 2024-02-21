@@ -14,11 +14,10 @@ interface ItemDataSource {
 class ItemDataSourceImpl @Inject constructor(private val service: TestService) :
     ItemDataSource {
     override suspend fun getItemList(): Flow<ResponseDataDto> = flow {
-        try {
-            val response = service.getItemList()
-            response.body()?.let { emit(it) }
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        runCatching { service.getItemList() }
+            .onSuccess { emit(it.body()!!) }
+            .onFailure {
+                Timber.e(it)
+            }
     }
 }
