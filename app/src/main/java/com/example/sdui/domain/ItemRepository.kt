@@ -1,8 +1,9 @@
 package com.example.sdui.domain
 
 import com.example.sdui.data.dto.ResponseDataDto
+import kotlinx.coroutines.flow.Flow
 
 interface ItemRepository {
 
-    suspend fun getItemList(): ResponseDataDto
+    suspend fun getItemList(): Flow<ResponseDataDto>
 }

@@ -8,6 +8,12 @@ import com.example.sdui.data.dto.AreaDto
 import com.example.sdui.data.dto.ResponseDataDto
 import com.example.sdui.domain.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +22,15 @@ class MainViewModel @Inject constructor(
     private val repository: ItemRepository
 ) : ViewModel() {
 
-    private val _staticData = MutableLiveData<AreaDto?>()
-    val staticData: LiveData<AreaDto?> = _staticData
+    private val _staticData = MutableStateFlow<AreaDto?>(null)
+    val staticData: StateFlow<AreaDto?> = _staticData
 
-    private val _dynamicData = MutableLiveData<AreaDto?>()
-    val dynamicData: LiveData<AreaDto?> = _dynamicData
+    private val _dynamicData = MutableStateFlow<AreaDto?>(null)
+    val dynamicData: StateFlow<AreaDto?> = _dynamicData
 
     fun getItemList() {
         viewModelScope.launch {
-            repository.getItemList().let {
+            repository.getItemList().collectLatest {
                 _staticData.value = it.staticArea
                 _dynamicData.value = it.dynamicArea
             }
