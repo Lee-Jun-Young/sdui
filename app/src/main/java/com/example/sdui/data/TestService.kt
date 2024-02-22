@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface TestService {
 
     @GET("list")
-    suspend fun getItemList(): Response<ResponseDataDto>
+    suspend fun getItemList(): ResponseDataDto
 }

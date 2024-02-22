@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sdui.data.dto.ApiResult
 import com.example.sdui.data.dto.AreaDto
 import com.example.sdui.data.dto.ResponseDataDto
 import com.example.sdui.domain.ItemRepository
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,8 +33,16 @@ class MainViewModel @Inject constructor(
     fun getItemList() {
         viewModelScope.launch {
             repository.getItemList().collectLatest {
-                _staticData.value = it.staticArea
-                _dynamicData.value = it.dynamicArea
+                when (it) {
+                    is ApiResult.Success -> {
+                        _staticData.value = it.data.staticArea
+                        _dynamicData.value = it.data.dynamicArea
+                    }
+
+                    is ApiResult.Error -> {
+                        Timber.e(it.errorMsg)
+                    }
+                }
             }
         }
     }
